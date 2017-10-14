@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Counter</title>
+    <script src="https://fb.me/react-0.14.7.js"></script>
+    <script src="https://fb.me/react-dom-0.14.7.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-core/5.8.20/browser.min.js"></script>
+     <link rel="stylesheet" type="text/css" href="styles.css">
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="text/babel">
+
+      // Create Counter component
+      class Counter extends React.Component {
+
+        constructor(props) {
+          super(props);
+          // Set initial counter value to 0
+          this.state = {count: 0}
+          this.resetCount = this.resetCount.bind(this);
+          this.incrementCount = this.incrementCount.bind(this);
+          this.multiplyCount = this.multiplyCount.bind(this);
+        }
+
+        // Increment crrent counter value by provided value
+        incrementCount(value) {
+          this.setState({
+            count: this.state.count + value
+          });
+        }
+
+        // Multiply current counter value by provided value
+        multiplyCount(value) {
+          this.setState({
+            count: this.state.count * value
+          });
+        }
+
+        // Reset counter value to 0
+        resetCount() {
+          this.setState({
+            count: 0
+          });
+        }
+
+        // Render buttons
+        render() {
+          return (
+            <div className="container">
+              <h1 className="blue">Count is {this.state.count}</h1>
+              <Button style="btn blue-btn" text={`${this.props.textOne} ${this.props.valueOne}`} value={this.props.valueOne} clickHandler={() => this.incrementCount(this.props.valueOne)} />
+              <Button style="btn green-btn" text={`${this.props.textOne} ${this.props.valueTwo}`} value={this.props.valueTwo} clickHandler={() => this.incrementCount(this.props.valueTwo)} />
+              <Button style="btn purple-btn" text={`${this.props.textOne} ${this.props.valueThree}`} value={this.props.valueThree} clickHandler={() => this.incrementCount(this.props.valueThree)} />
+              <Button style="btn red-btn" text="Reset" clickHandler={this.resetCount} />
+              <div>
+                <Button style="btn green-btn" text={`${this.props.textTwo} ${this.props.valueTwo}`} value={this.props.valueTwo} clickHandler={() => this.multiplyCount(this.props.valueTwo)} />
+                <Button style="btn purple-btn" text={`${this.props.textTwo} ${this.props.valueThree}`} value={this.props.valueThree} clickHandler={() => this.multiplyCount(this.props.valueThree)} />
+              </div>
+            </div>
+          );
+        }
+      }
+
+      // Set default values for buttons
+      Counter.defaultProps = {
+        valueOne: 1,
+        valueTwo: 5,
+        valueThree: 10,
+        textOne: "Add",
+        textTwo: "Times"
+      }
+
+      // Create button component
+      const Button = (props) => {
+        return (
+          <button className={props.style} value={props.value} onClick={props.clickHandler}>{props.text}</button>
+        )
+      };
+
+      // Ensure proper prop types
+      Button.propTypes = {
+        text: React.PropTypes.string,
+        style: React.PropTypes.string,
+        value: React.PropTypes.number,
+        clickHandler: React.PropTypes.func.isRequired
+      }
+
+      // Render Counter compenent to DOM with adjustable values
+      ReactDOM.render(
+        <Counter valueOne={1} valueTwo={2} valueThree={3} />,
+        document.getElementById("app")
+      );
+    </script>
+  </body>
+</html>
